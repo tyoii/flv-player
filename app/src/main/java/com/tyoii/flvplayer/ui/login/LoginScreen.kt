@@ -49,7 +49,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "播放 Google Drive 上的\nbililive-go 直播录像",
+                text = "播放 Google Drive 上的\n视频与录像",
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyLarge

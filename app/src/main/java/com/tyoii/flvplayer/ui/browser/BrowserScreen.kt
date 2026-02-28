@@ -44,7 +44,7 @@ fun BrowserScreen(
                                 searchText = it
                                 onSearch(it)
                             },
-                            placeholder = { Text("搜索 FLV 文件...") },
+                            placeholder = { Text("搜索视频...") },
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth()
                         )

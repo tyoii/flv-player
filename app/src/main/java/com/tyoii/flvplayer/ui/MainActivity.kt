@@ -178,7 +178,7 @@ fun MainApp(
 
                 composable("history") {
                     val viewModel: HistoryViewModel = hiltViewModel()
-                    val historyList by viewModel.historyList.collectAsStateWithLifecycle()
+                    val historyList by viewModel.historyList.collectAsStateWithLifecycle(initialValue = emptyList())
 
                     HistoryScreen(
                         historyList = historyList,

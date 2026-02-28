@@ -21,13 +21,16 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
-import androidx.media3.datasource.okhttp.OkHttpDataSource
+import androidx.media3.extractor.DefaultExtractorsFactory
+import androidx.media3.extractor.flv.FlvExtractor
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.PlayerView
 import kotlinx.coroutines.delay
 import okhttp3.OkHttpClient
 import okhttp3.Request
+
+import androidx.media3.datasource.okhttp.OkHttpDataSource
 
 @SuppressLint("UnsafeOptInUsageError")
 @Composable
@@ -57,7 +60,11 @@ fun PlayerScreen(
                     mapOf("Authorization" to "Bearer ${state.accessToken}")
                 )
 
-            val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+            val extractorsFactory = DefaultExtractorsFactory()
+                .setConstantBitrateSeekingEnabled(true)
+                .setConstantBitrateSeekingAlwaysEnabled(true)
+
+            val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory, extractorsFactory)
                 .createMediaSource(MediaItem.fromUri(state.streamUrl))
 
             player.setMediaSource(mediaSource)

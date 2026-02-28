@@ -32,9 +32,10 @@ jobs:
         run: ./gradlew assembleDebug --stacktrace
 
       - name: Print Debug Keystore SHA1
-        run: keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android | grep SHA1
+        run: keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android | grep SHA1 || echo "Keytool failed"
 
       - name: Upload APK
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: flv-player-debug

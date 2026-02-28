@@ -41,21 +41,29 @@ class PlayerViewModel @Inject constructor(
 
     fun prepare(fileId: String, fileName: String) {
         val streamUrl = driveRepo.getStreamUrl(fileId)
-        val token = driveRepo.getAccessToken() ?: ""
 
         _state.value = PlayerState(
             fileId = fileId,
             fileName = fileName,
             streamUrl = streamUrl,
-            accessToken = token,
             isLoading = true
         )
 
-        // Load saved position
-        viewModelScope.launch {
-            val history = historyDao.getByFileId(fileId)
-            if (history != null && !history.isFinished) {
-                _state.value = _state.value.copy(savedPosition = history.position)
+        // Load token and saved position in background
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            try {
+                val token = driveRepo.getAccessToken() ?: ""
+                val history = historyDao.getByFileId(fileId)
+                
+                _state.value = _state.value.copy(
+                    accessToken = token,
+                    savedPosition = if (history != null && !history.isFinished) history.position else 0
+                )
+            } catch (e: Exception) {
+                _state.value = _state.value.copy(
+                    error = "Failed to load credentials: ${e.message}",
+                    isLoading = false
+                )
             }
         }
     }

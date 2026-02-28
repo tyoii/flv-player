@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.tyoii.flvplayer"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.tyoii.flvplayer"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
     }

@@ -72,7 +72,8 @@ fun MainApp(
     var signedIn by remember { mutableStateOf(isSignedIn) }
     var isSigningIn by remember { mutableStateOf(false) }
 
-    val activity = LocalActivity.current
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val activity = context as Activity
 
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -176,8 +177,6 @@ fun MainApp(
                 }
 
                 composable("history") {
-                    val historyDao = (activity as MainActivity).driveRepo
-                    // Use a simple ViewModel for history
                     val viewModel: HistoryViewModel = hiltViewModel()
                     val historyList by viewModel.historyList.collectAsStateWithLifecycle()
 
